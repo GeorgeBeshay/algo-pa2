@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'algs'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('buildPart1', Jar) {
+
+    archiveFileName = 'activity_20010435.jar' // Change the name of the JAR file if needed
+
+    from sourceSets.main.output.asFileTree.matching {
+        include 'algs/part01/**' // Include the 'algs' package and its contents
+    }
+
+    manifest {
+        attributes 'Main-Class': 'algs.part01.ActivitySelectionDP' // Replace with your main class
+    }
+}
+
+tasks.buildPart1.dependsOn(tasks.build)
+tasks.build.finalizedBy(tasks.buildPart1)
