@@ -35,6 +35,7 @@ public class ActivitySelectionDP {
         }
 
         FileIO.exportOutput(inputFilePath, ans);        // export to same input file directory.
+        System.out.println("Result exported.");
         return ans;
     }
 
