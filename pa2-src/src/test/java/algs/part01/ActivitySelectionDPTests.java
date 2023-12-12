@@ -1,5 +1,6 @@
 package algs.part01;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,6 +18,11 @@ public class ActivitySelectionDPTests {
     @BeforeEach
     public void setup() {
         activitySelectionDP = new ActivitySelectionDP();
+    }
+
+    @AfterAll
+    public static void terminate() {
+        System.out.println("All testcases have been executed.");
     }
 
     @ParameterizedTest
@@ -71,7 +77,7 @@ public class ActivitySelectionDPTests {
                         33
                 ),
                 Arguments.of(
-                        new int[][]{
+                        new int[][] {
                                 {1, 3, 5},
                                 {2, 5, 8},
                                 {3, 6, 7},
@@ -80,14 +86,31 @@ public class ActivitySelectionDPTests {
                         14
                 ),
                 Arguments.of(
-                        new int[][]{
+                        new int[][] {
                                 {5, 8, 3},
                                 {2, 4, 2},
                                 {7, 9, 5},
                                 {1, 3, 4},
-                                {15, 17, 1}
+                                {15, 17, 1},
                         },
                         10
+                ),
+                Arguments.of(
+                        new int[][] {
+                                {1, 2, 3},
+                                {2, 5, 4},
+                                {2, 3, 1},
+                                {3, 4, 2},
+                        },
+                        7
+                ),
+                Arguments.of(
+                        new int[][] {
+                                {1, 2, 1},
+                                {2, 3, 2},
+                                {3, 4, 5},
+                        },
+                        8
                 )
         );
     }

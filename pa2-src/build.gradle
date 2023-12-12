@@ -26,6 +26,18 @@ tasks.register('buildPart1', Jar) {
         include 'algs/part01/**' // Include the 'algs' package and its contents
     }
 
+    from sourceSets.main.java.asFileTree.matching {
+        include 'algs/part01/**'
+    }
+
+    from sourceSets.test.output.asFileTree.matching {
+        include 'algs/part01/**' // Include the 'algs' package and its contents
+    }
+
+    from sourceSets.test.java.asFileTree.matching {
+        include 'algs/part01/**'
+    }
+
     manifest {
         attributes 'Main-Class': 'algs.part01.ActivitySelectionDP' // Replace with your main class
     }
