@@ -4,3 +4,4 @@ build/*
 !build/libs
 gradle
 src/main/java/algs/part01/tests
+/src/main/java/algs/part02/tests/
