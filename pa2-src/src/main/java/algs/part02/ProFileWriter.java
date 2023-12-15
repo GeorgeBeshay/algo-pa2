@@ -36,7 +36,8 @@ public class ProFileWriter {
         int bytesWrote = 0;
 
         while(bytesWrote < filePartBytes.length) {
-            System.arraycopy(filePartBytes, bytesWrote, buffer, 0, Math.min(filePartBytes.length - bytesWrote, BUFFER_SIZE));
+            System.arraycopy(filePartBytes, bytesWrote, buffer, 0,
+                    Math.min(filePartBytes.length - bytesWrote, BUFFER_SIZE));
             writeSomeBytes(Math.min(filePartBytes.length - bytesWrote, BUFFER_SIZE));
             bytesWrote += Math.min(filePartBytes.length - bytesWrote, BUFFER_SIZE);
         }
