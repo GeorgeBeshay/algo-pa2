@@ -18,6 +18,11 @@ test {
     useJUnitPlatform()
 }
 
+tasks.register('generateJavaDocs', Javadoc) {
+    source = sourceSets.main.allJava
+    destinationDir = file("build/docs/javadoc")
+}
+
 tasks.register('buildPart1', Jar) {
 
     archiveFileName = 'activity_20010435.jar' // Change the name of the JAR file if needed
@@ -45,3 +50,6 @@ tasks.register('buildPart1', Jar) {
 
 tasks.buildPart1.dependsOn(tasks.build)
 tasks.build.finalizedBy(tasks.buildPart1)
+
+tasks.generateJavaDocs.dependsOn(tasks.build)
+tasks.build.finalizedBy(tasks.generateJavaDocs)
