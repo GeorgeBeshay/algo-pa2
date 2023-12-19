@@ -14,7 +14,7 @@ public class HuffmanTests {
 
 //    public static void main(String[] args) {
 //        byte tempPrefix = 0;
-//        tempPrefix += (byte) 20;
+//        tempPrefix += (byte) 1;
 //        System.out.println(String.format("%02X", tempPrefix));
 //        System.out.printf("%1s%n", Integer.toBinaryString(tempPrefix & 0xFF).replace(' ', '0'));
 //        System.out.println(String.format("%1s%n", Integer.toBinaryString(tempPrefix & 0xFF)).replace(' ', '0'));
@@ -24,7 +24,7 @@ public class HuffmanTests {
     public void test() {
         HashMap<String, Long> map = new HashMap<>();
 
-        for(long i = 0 ; i < 256 ; i++) {
+        for(long i = 0 ; i < 3 ; i++) {
             map.put("STR " + i, i);
         }
 

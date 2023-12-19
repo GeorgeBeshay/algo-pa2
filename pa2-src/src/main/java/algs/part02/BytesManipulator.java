@@ -33,4 +33,20 @@ public class BytesManipulator {
         return stringBuilder.toString();
 
     }
+
+    public static byte[] convertBitsStringToBytes(String bitString) {
+        byte[] equivalentBytes = new byte[(int) Math.ceil(bitString.length() / 8.0)];
+
+        // The first B - 1 bytes are assured to be full bytes.
+        int i = 0;
+        for (; i < equivalentBytes.length - 1 ; i++)
+            equivalentBytes[i] = Byte.parseByte(bitString.substring(i * 8, (i * 8) + 8), 2);
+
+        // The last byte may have less than 8 bits.
+        equivalentBytes[equivalentBytes.length - 1] = Byte.parseByte(
+                bitString.substring(i * 8) + "0".repeat(8 - (bitString.length() % 8)),
+                2);
+
+        return equivalentBytes;
+    }
 }

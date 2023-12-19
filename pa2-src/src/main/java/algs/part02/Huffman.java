@@ -7,7 +7,11 @@ import java.util.HashMap;
 
 public class Huffman {
 
-    private static final int numberOfChildren = 255;
+    protected static int numberOfChildren = 2;
+
+    public static void setNumberOfChildren(int numberOfChildren) {
+        Huffman.numberOfChildren = numberOfChildren;
+    }
 
     public static HashMap<String, String> huffman(HashMap<String, Long> freqMap) {
 
@@ -18,7 +22,7 @@ public class Huffman {
          *
          * Create a PQ of HuffmanTreeNode
          * Loop while PQ.size() > 1
-         *      pop the least 255 (or smaller if PQ.size() < 255) nodes
+         *      pop the smallest numberOfChildren (or smaller if PQ.size() < numberOfChildren) nodes
          *      Create a new node with those nodes as its children and compute its new frequency.
          *      Insert the new node
          *
@@ -39,7 +43,7 @@ public class Huffman {
         while(pq.size() > 1) {
 
             HuffmanTreeNode newNode = new HuffmanTreeNode();
-            HuffmanTreeNode[] tempNodes = new HuffmanTreeNode[Math.min(numberOfChildren, pq.size())];
+            HuffmanTreeNode[] tempNodes = new HuffmanTreeNode[computeSuitableChildrenCount(pq.size())];
 
             for (int i = 0 ; i < tempNodes.length ; i++) {
                 tempNodes[i] = pq.poll();
@@ -76,7 +80,7 @@ public class Huffman {
         for (HuffmanTreeNode childNode : huffmanTreeRoot.getChildren()) {
 
             StringBuilder newPrefix = new StringBuilder(prefix.toString());
-            if (numberOfChildren == 255)
+            if (numberOfChildren == 256)
                 newPrefix.append(String.format("%02X", tempPrefix));
             else if (numberOfChildren == 2)
                 newPrefix.append(String.format("%1s", Integer.toBinaryString(tempPrefix & 0xFF)).replace(' ', '0'));
@@ -88,6 +92,11 @@ public class Huffman {
         }
 
         return representationMap;
+    }
+
+    private static int computeSuitableChildrenCount(int pqSize) {
+        int extraPossibleTerm = pqSize > Huffman.numberOfChildren ? pqSize - Huffman.numberOfChildren + 1 : Integer.MAX_VALUE;
+        return Math.min(Huffman.numberOfChildren, Math.min(pqSize, extraPossibleTerm));
     }
 }
 
@@ -135,8 +144,8 @@ class HuffmanTreeNode {
     }
 
     public void setChildren(HuffmanTreeNode[] children) {
-        if(children.length > 255)
-            throw new RuntimeException("Huffman Tree Node can't have more than 255 children.");
+        if(children.length > Huffman.numberOfChildren)
+            throw new RuntimeException("Huffman Tree Node can't have more than " + Huffman.numberOfChildren + "children.");
 
         this.children = new HuffmanTreeNode[children.length];
         System.arraycopy(children, 0, this.children, 0, children.length);
