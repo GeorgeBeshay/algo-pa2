@@ -8,11 +8,25 @@ import java.io.IOException;
  * This class is responsible for writing files, especially those HUGE ones.
  */
 public class ProFileWriter {
-    public static final int BUFFER_SIZE = 1_048_576;       // 1 Mega Bytes
+
+//    public static void main(String[] args) {
+//        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\test256bytes.txt";
+//        ProFileWriter proFileWriter = new ProFileWriter(filePath);
+//        byte[] bytes = new byte[256];
+//        for(int i = 0  ; i < 256 ; i++)
+//            bytes[i] = (byte) i;
+//        proFileWriter.writeNextFilePart(bytes);
+//    }
+
+    public static int BUFFER_SIZE = 52_428_800;       // 50 Mega Bytes
     private FileOutputStream fileOutputStream;
     private final String filePath;
     private final byte[] buffer;
     private long totalBytesWritten;
+
+    public static void setBufferSize(int n) {
+        BUFFER_SIZE = (int) Math.ceil((double) 52_428_800 / n);
+    }
 
     /**
      * Constructs a ProFileWriter object to write to the specified file.

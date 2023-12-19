@@ -4,7 +4,7 @@ package algs.part02;
  * This class demonstrates LARGE file input/output operations by reading from a file using ProFileReader
  * and writing to another file using ProFileWriter.
  */
-public class FileIODemo {
+public class Main {
 
     /**
      * The main method demonstrating file input/output operations.
@@ -24,8 +24,8 @@ public class FileIODemo {
             readBytes = proFileReader.readNextFilePart();
         }
 
-        Logger.logMsgFrom(FileIODemo.class.getName(), "Total Read Bytes = " + proFileReader.getTotalBytesRead(), 0);
-        Logger.logMsgFrom(FileIODemo.class.getName(), "Total Written Bytes = " + proFileWriter.getTotalBytesWritten(), 0);
+        Logger.logMsgFrom(Main.class.getName(), "Total Read Bytes = " + proFileReader.getTotalBytesRead(), 0);
+        Logger.logMsgFrom(Main.class.getName(), "Total Written Bytes = " + proFileWriter.getTotalBytesWritten(), 0);
 
     }
 

@@ -4,18 +4,18 @@ import java.util.HashMap;
 
 public class BytesManipulator {
 
-    public static HashMap<String, Integer> updateFrequencyMap(byte[] filePart, int n, HashMap<String, Integer> freqMap) {
+    public static HashMap<String, Long> updateFrequencyMap(byte[] filePart, int n, HashMap<String, Long> freqMap) {
 
         if(freqMap == null)
             freqMap = new HashMap<>();
 
-        for(int i = 0 ; i < filePart.length ; i+=3) {
+        for(int i = 0 ; i < filePart.length ; i+=n) {
 
             String nBytesStringRepresentation = bytesToHexadecimalString(filePart, i, Math.min(i + n, filePart.length));
             if(freqMap.containsKey(nBytesStringRepresentation)) {
                 freqMap.replace(nBytesStringRepresentation, freqMap.get(nBytesStringRepresentation) + 1);
             } else {
-                freqMap.put(nBytesStringRepresentation, 1);
+                freqMap.put(nBytesStringRepresentation, 1L);
             }
 
         }
@@ -34,19 +34,40 @@ public class BytesManipulator {
 
     }
 
-    public static byte[] convertBitsStringToBytes(String bitString) {
-        byte[] equivalentBytes = new byte[(int) Math.ceil(bitString.length() / 8.0)];
+    public static byte[] convertBinStringToBytesArray(String binaryString) {
+        if (binaryString.isEmpty())
+            return new byte[]{};
+        if (binaryString.length() % 8 != 0) {
+            Logger.logMsgFrom(BytesManipulator.class.getName(), "Error in converting binary string to bytes array ..", 1);
+            throw new RuntimeException("Error in converting binary string to bytes array ..");
+        }
 
-        // The first B - 1 bytes are assured to be full bytes.
-        int i = 0;
-        for (; i < equivalentBytes.length - 1 ; i++)
-            equivalentBytes[i] = Byte.parseByte(bitString.substring(i * 8, (i * 8) + 8), 2);
+        byte[] equivalentBytes = new byte[(int) Math.ceil(binaryString.length() / 8.0)];
 
-        // The last byte may have less than 8 bits.
-        equivalentBytes[equivalentBytes.length - 1] = Byte.parseByte(
-                bitString.substring(i * 8) + "0".repeat(8 - (bitString.length() % 8)),
-                2);
+        for (int i = 0; i < equivalentBytes.length ; i++) {
+            equivalentBytes[i] = (byte) Integer.parseInt(binaryString.substring( i * 8, (i * 8) + 8), 2);
+        }
 
         return equivalentBytes;
+    }
+
+    public static byte[] convertHexStringToBytesArray(String bytesString) {
+        if (bytesString.isEmpty())
+            return new byte[]{};
+
+        if (bytesString.length() % 2 != 0)
+            Logger.logMsgFrom(BytesManipulator.class.getName(), "Error in converting hexadecimal string to bytes array ..", 1);
+
+        byte[] equivalentBytes = new byte[(int) Math.ceil(bytesString.length() / 2.0)];
+
+        for (int i = 0; i < equivalentBytes.length ; i++) {
+            equivalentBytes[i] = (byte) Integer.parseInt(bytesString.substring(2 * i, (2 * i) + 2), 16);
+        }
+
+        return equivalentBytes;
+    }
+
+    public static String convertByteToBinaryString(byte b) {
+        return String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
     }
 }
