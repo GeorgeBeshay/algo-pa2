@@ -1,5 +1,6 @@
 package algs.part02;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,25 +34,29 @@ public class CompressionDecompressionTests {
         decompressor.decompress(compressedFilePath, metadataFilePath);
 
         // Assert
-        assertTrue(areFilesEqual(new File(originalFilePath), new File(decompressedFilePath)));
-    }
-
-    private static boolean areFilesEqual(File file1, File file2) {
-        try (BufferedInputStream bis1 = new BufferedInputStream(new FileInputStream(file1));
-             BufferedInputStream bis2 = new BufferedInputStream(new FileInputStream(file2))) {
-
-            int byte1, byte2;
-            while ((byte1 = bis1.read()) != -1) {
-                byte2 = bis2.read();
-                if (byte1 != byte2) {
-                    return false;
-                }
-            }
-            return bis2.read() == -1; // Ensure file2 has no extra content
+        try {
+            assertTrue(FileUtils.contentEquals(new File(originalFilePath), new File(decompressedFilePath)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+//    private static boolean areFilesEqual(File file1, File file2) {
+//        try (BufferedInputStream bis1 = new BufferedInputStream(new FileInputStream(file1));
+//             BufferedInputStream bis2 = new BufferedInputStream(new FileInputStream(file2))) {
+//
+//            int byte1, byte2;
+//            while ((byte1 = bis1.read()) != -1) {
+//                byte2 = bis2.read();
+//                if (byte1 != byte2) {
+//                    return false;
+//                }
+//            }
+//            return bis2.read() == -1; // Ensure file2 has no extra content
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private static Stream<Arguments> generateAbsoluteFilePath() {
         return Stream.of(
