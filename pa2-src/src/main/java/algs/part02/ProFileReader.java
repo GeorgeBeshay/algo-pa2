@@ -9,13 +9,6 @@ import java.io.IOException;
  */
 public class ProFileReader {
 
-//    public static void main(String[] args) {
-//        String fp = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\20010435_1.simpletext.txt.hc";
-//        ProFileReader proFileReader = new ProFileReader(fp);
-//        byte[] bytes = proFileReader.readNextFilePart();
-//        for(byte b : bytes)
-//            System.out.println(b);
-//    }
     public static int BUFFER_SIZE = 52_428_800;       // 50 Mega Bytes
     private FileInputStream fileInputStream;
     private final String filePath;

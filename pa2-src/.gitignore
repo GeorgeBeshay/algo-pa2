@@ -5,3 +5,4 @@ build/*
 gradle
 src/main/java/algs/part01/tests
 /src/main/java/algs/part02/tests/
+src/test/resources/*

@@ -29,7 +29,7 @@ public class Logger {
      */
     public static void logMsgFrom (String className, String msg, int type) {
         String modifiedMessage =
-                className + "(" +LocalTime.now().format(formatter) + ")"
+                className + " (" +LocalTime.now().format(formatter) + ")"
                         + ": " + msg;
         log(modifiedMessage, type);
     }
