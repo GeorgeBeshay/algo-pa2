@@ -16,6 +16,7 @@ public class ProFileReader {
     private long totalBytesRead;
     private int bufferPointer;
     private boolean bufferEmpty;
+    private int bytesFoundCount;
 
     public static void setBufferSizeMatchN(int n) {
         BUFFER_SIZE = (int) Math.ceil((double) 52_428_800 / n);
@@ -48,8 +49,16 @@ public class ProFileReader {
      * @throws RuntimeException if an IO error occurs.
      */
     public byte[] readNextFilePart() {
+
+        if (bufferPointer > 0 && bufferPointer < BUFFER_SIZE) {
+            byte[] bytesFound = new byte[bytesFoundCount - bufferPointer];
+            System.arraycopy(buffer, bufferPointer, bytesFound, 0, bytesFoundCount - bufferPointer);
+            bufferPointer = 0;
+            return bytesFound;
+        }
+
         try {
-            int bytesFoundCount = fileInputStream.read(buffer);
+            bytesFoundCount = fileInputStream.read(buffer);
             if(bytesFoundCount == -1) {
                 bytesFoundCount = 0;
                 Logger.logMsgFrom(this.getClass().getName(), "All file has been read successfully.", 0);
@@ -122,10 +131,11 @@ public class ProFileReader {
                 System.arraycopy(buffer, bufferPointer, xBytes, x - remainingBytes, buffer.length - bufferPointer);
                 remainingBytes -= buffer.length - bufferPointer;
 
+                bufferPointer = 0;
                 byte[] tempByteArray = readNextFilePart();
                 if (tempByteArray.length == 0)
                     throw new RuntimeException("No more bytes.");
-                bufferPointer = 0;
+//                bufferPointer = 0;
             }
 
             if (remainingBytes > 0) {

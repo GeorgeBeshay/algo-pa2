@@ -1,6 +1,7 @@
 package algs.part02;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import static algs.part02.BytesManipulator.updateFrequencyMap;
 
@@ -49,6 +50,7 @@ public class Compressor {
         Logger.logMsgFrom(this.getClass().getName(), "Computed the representation map successfully", 0);
 
         // generate metadata of the compressed file
+        LinkedList<Byte> metadataBytes = Metadata.computeMetadata(representationMap, freqMap, n);
         String metadata = Metadata.generateCompressionMetaData(freqMap, representationMap);
         Logger.logMsgFrom(this.getClass().getName(), "Computed the metadata successfully", 0);
 
@@ -118,6 +120,18 @@ public class Compressor {
 
         ProFileWriter proFileWriter = new ProFileWriter(Utilities.generateCompressionFilePath(filePathToCompress, n));
         byte[] bytesToWrite;
+
+        // write metadata
+//        LinkedList<Byte> metadataBytes = new LinkedList<>();
+//        bytesToWrite = new byte[metadataBytes.size()];
+//
+//        for (int i = 0 ; i < bytesToWrite.length ; i++) {
+//            bytesToWrite[i] = metadataBytes.poll();
+//        }
+//
+//        proFileWriter.writeNextFilePart(bytesToWrite);
+//        bytesToWrite = null;
+        // finished writing metadata.
 
         StringBuilder binaryStringBuilder = new StringBuilder("0".repeat(paddingBits));
 //        String tempNBytes;  // in hexadecimal

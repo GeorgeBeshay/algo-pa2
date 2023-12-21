@@ -140,6 +140,77 @@ public class BytesManipulatorTests {
         assertEquals(expectedBits, resultBits);
     }
 
+    @Test
+    public void testConvertIntToBytes() {
+        int number = 123456789;
+        byte[] expectedBytes = {0x07, (byte) 0x5B, (byte) 0xCD, 0x15}; // Corresponding bytes for the int
+
+        byte[] resultBytes = BytesManipulator.convertIntToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
+
+    @Test
+    public void testConvertLongToBytes() {
+        long number = 9876543210L;
+        byte[] expectedBytes = {0x00, 0x00, 0x00, 0x02, 0x4C, (byte) 0xB0, (byte) 0x16, (byte) 0xEA}; // Corresponding bytes for the long
+
+        byte[] resultBytes = BytesManipulator.convertLongToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
+
+    @Test
+    public void testConvertIntToBytes_MinValue() {
+        int number = Integer.MIN_VALUE;
+        byte[] expectedBytes = {-128, 0, 0, 0}; // Corresponding bytes for Integer.MIN_VALUE
+
+        byte[] resultBytes = BytesManipulator.convertIntToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
+
+    @Test
+    public void testConvertIntToBytes_MaxValue() {
+        int number = Integer.MAX_VALUE;
+        byte[] expectedBytes = {0x7F, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF}; // Corresponding bytes for Integer.MAX_VALUE
+
+        byte[] resultBytes = BytesManipulator.convertIntToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
+
+    @Test
+    public void testConvertLongToBytes_MinValue() {
+        long number = Long.MIN_VALUE;
+        byte[] expectedBytes = {-128, 0, 0, 0, 0, 0, 0, 0}; // Corresponding bytes for Long.MIN_VALUE
+
+        byte[] resultBytes = BytesManipulator.convertLongToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
+
+    @Test
+    public void testConvertLongToBytes_MaxValue() {
+        long number = Long.MAX_VALUE;
+        byte[] expectedBytes = {0x7F, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF}; // Corresponding bytes for Long.MAX_VALUE
+
+        byte[] resultBytes = BytesManipulator.convertLongToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
+
+    @Test
+    public void testConvertIntToBytes_Zero() {
+        int number = 0;
+        byte[] expectedBytes = {0, 0, 0, 0}; // Corresponding bytes for zero
+
+        byte[] resultBytes = BytesManipulator.convertIntToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
+
+    @Test
+    public void testConvertLongToBytes_Zero() {
+        long number = 0L;
+        byte[] expectedBytes = {0, 0, 0, 0, 0, 0, 0, 0}; // Corresponding bytes for zero
+
+        byte[] resultBytes = BytesManipulator.convertLongToBytes(number);
+        assertArrayEquals(expectedBytes, resultBytes);
+    }
 
     private static Stream<Arguments> generateBytesAndEquivalentStrings() {
         return Stream.of(

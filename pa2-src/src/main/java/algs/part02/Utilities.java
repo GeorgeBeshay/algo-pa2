@@ -28,4 +28,8 @@ public class Utilities {
         return filePathToCompress.replaceFirst("[.][^.]+$", "_metadata_" + n + ".txt");
     }
 
+    public static byte computePaddingBits(int binaryStringLength) {
+        return (byte) ((8 - (binaryStringLength % 8)) % 8);
+    }
+
 }

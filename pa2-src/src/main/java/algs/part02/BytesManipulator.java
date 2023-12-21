@@ -111,4 +111,26 @@ public class BytesManipulator {
         return stringBuilder.toString();
     }
 
+    public static byte[] convertIntToBytes(int number) {
+
+        byte[] bytes = new byte[Integer.BYTES];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[bytes.length - i - 1] = (byte) (number & 0xFF);
+            number >>= 8;
+        }
+
+        return bytes;
+    }
+
+    public static byte[] convertLongToBytes(long number) {
+
+        byte[] bytes = new byte[Long.BYTES];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[bytes.length - i - 1] = (byte) (number & 0xFF);
+            number >>= 8;
+        }
+
+        return bytes;
+    }
+
 }

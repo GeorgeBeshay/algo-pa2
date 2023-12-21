@@ -58,5 +58,6 @@ tasks.build.finalizedBy(tasks.generateJavaDocs)
 
 tasks.withType(JavaExec).configureEach {
     maxHeapSize = "2g"      // java heap space.
+    jvmArgs('-ea')          // enable assertions.
 }
 
