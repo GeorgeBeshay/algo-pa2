@@ -7,11 +7,11 @@ import java.util.HashMap;
 
 public class Huffman {
 
-    protected static int numberOfChildren = 2;
+    private final static int numberOfChildren = 2;
 
-    public static void setNumberOfChildren(int numberOfChildren) {
-        Huffman.numberOfChildren = numberOfChildren;
-    }
+//    public static void setNumberOfChildren(int numberOfChildren) {
+//        Huffman.numberOfChildren = numberOfChildren;
+//    }
 
     public static HashMap<String, String> huffman(HashMap<String, Long> freqMap) {
 
@@ -82,10 +82,10 @@ public class Huffman {
         for (HuffmanTreeNode childNode : huffmanTreeRoot.getChildren()) {
 
             StringBuilder newPrefix = new StringBuilder(prefix.toString());
-            if (numberOfChildren == 256)
-                newPrefix.append(String.format("%02X", tempPrefix));
-            else if (numberOfChildren == 2)
-                newPrefix.append(String.format("%1s", Integer.toBinaryString(tempPrefix & 0xFF)).replace(' ', '0'));
+            if (tempPrefix == 0)
+                newPrefix.append('0');
+            else
+                newPrefix.append('1');
 
             huffmanTreeNodeToRepresentationMap(childNode, newPrefix, representationMap);
 
@@ -146,8 +146,8 @@ class HuffmanTreeNode {
     }
 
     public void setChildren(HuffmanTreeNode[] children) {
-        if(children.length > Huffman.numberOfChildren)
-            throw new RuntimeException("Huffman Tree Node can't have more than " + Huffman.numberOfChildren + "children.");
+        if(children.length > 2)
+            throw new RuntimeException("Huffman Tree Node can't have more than " + 2 + "children.");
 
         this.children = new HuffmanTreeNode[children.length];
         System.arraycopy(children, 0, this.children, 0, children.length);

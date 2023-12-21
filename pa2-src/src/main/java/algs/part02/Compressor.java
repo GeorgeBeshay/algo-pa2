@@ -37,7 +37,7 @@ public class Compressor {
         Logger.logMsgFrom(this.getClass().getName(), "File compression process has been started ..", -1);
 
         // configurations
-        Huffman.setNumberOfChildren(2);
+//        Huffman.setNumberOfChildren(2);
         ProFileWriter.setBufferSize(n);
         ProFileReader.setBufferSizeMatchN(n);
 
