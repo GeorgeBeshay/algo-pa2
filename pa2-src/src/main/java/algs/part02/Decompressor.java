@@ -46,12 +46,12 @@ public class Decompressor {
 
         // extract representation map from the metadata file.
         HashMap<String, String> representationMap = new HashMap<>();
-        int paddingBits = Metadata.readAndExtractMetadata(metadataFilePath, representationMap);
-        Logger.logMsgFrom(this.getClass().getName(), "Metadata has been scanned successfully, " +
-                "and the representation map has been computed.", 0);
+//        int paddingBits = Metadata.readAndExtractMetadata(metadataFilePath, representationMap);
+//        Logger.logMsgFrom(this.getClass().getName(), "Metadata has been scanned successfully, " +
+//                "and the representation map has been computed.", 0);
 
         // decompress the file
-        readBytesAndExportDecompression(compressedFilePath, representationMap, paddingBits);
+        readBytesAndExportDecompression(compressedFilePath, representationMap);
         Logger.logMsgFrom(this.getClass().getName(), "File has been decompressed successfully.", 0);
 
         Logger.logMsgFrom(this.getClass().getName(), "File decompression process is successfully completed ..", 0);
@@ -61,14 +61,19 @@ public class Decompressor {
      * Reads bytes from the compressed file, performs decompression, and writes the result to a new file.
      * @param compressedFilePath The file path of the compressed file.
      * @param representationMap The mapping of compressed codes to original bytes.
-     * @param paddingBits The number of padding bits used during compression.
      */
-    public void readBytesAndExportDecompression(String compressedFilePath, Map<String, String> representationMap, int paddingBits) {
+    public void readBytesAndExportDecompression(String compressedFilePath, HashMap<String, String> representationMap) {
         // initialize data structures and objects
         ProFileReader proFileReader = new ProFileReader(compressedFilePath);
         byte[] readBytes;
         ProFileWriter proFileWriter = new ProFileWriter(Utilities.generateOriginalFilePath(compressedFilePath));
         byte[] bytesToWrite;
+
+        // read metadata
+        Object[] tempResults = Metadata.readAndExtractMetadataPro(representationMap, proFileReader);
+        int paddingBits = (byte) tempResults[2];
+        // ----------
+
 
         StringBuilder bytesString = new StringBuilder();        // bytes in hex
         StringBuilder nBitsRepresentation = new StringBuilder();

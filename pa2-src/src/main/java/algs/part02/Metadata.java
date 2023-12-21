@@ -77,14 +77,14 @@ public class Metadata {
         return ans;
     }
 
-    public static Object[] readAndExtractMetadataPro(String metadataFilePath, HashMap<String, String> representationMap) {
+    public static Object[] readAndExtractMetadataPro(HashMap<String, String> representationMap, ProFileReader proFileReader) {
         // this function needs to extract the following:
         // 1. Representation Map
         // 2. metadataSize
         // 3. padding bits.
         // 4. n
 
-        ProFileReader proFileReader = new ProFileReader(metadataFilePath);
+//        ProFileReader proFileReader = new ProFileReader(metadataFilePath);
 
         // reading configuration data
         long metadataSize = BytesManipulator.convertBytesToLong(proFileReader.getNextXBytes(8));
@@ -136,7 +136,7 @@ public class Metadata {
 
     }
 
-    public static LinkedList<Byte> computeMetadata(HashMap<String, String> representationMap, HashMap<String, Long> freqMap, int n) {
+    public static Object[] computeMetadata(HashMap<String, String> representationMap, HashMap<String, Long> freqMap, int n) {
         LinkedList<Byte> metadataBytes = new LinkedList<>();
         byte[] tempBytes;
         long metadataSize = 0;
@@ -244,7 +244,8 @@ public class Metadata {
         for (int i = tempBytes.length - 1 ; i >= 0 ; i--)
             metadataBytes.addFirst(tempBytes[i]);
 
-        return metadataBytes;
+        return new Object[] {metadataBytes, (byte) ((8 - (totalBits % 8)) % 8)};
+//        return metadataBytes;
     }
 
 }

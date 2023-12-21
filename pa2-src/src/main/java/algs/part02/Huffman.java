@@ -70,6 +70,8 @@ public class Huffman {
 
         // Reached the leaf nodes (base case)
         if (huffmanTreeRoot.getChildren() == null) {
+            if (prefix.toString().isEmpty())
+                prefix.append('0');
             representationMap.put(huffmanTreeRoot.getContent(), prefix.toString());
             return representationMap;
         }

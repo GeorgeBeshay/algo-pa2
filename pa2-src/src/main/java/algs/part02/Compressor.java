@@ -50,18 +50,20 @@ public class Compressor {
         Logger.logMsgFrom(this.getClass().getName(), "Computed the representation map successfully", 0);
 
         // generate metadata of the compressed file
-        LinkedList<Byte> metadataBytes = Metadata.computeMetadata(representationMap, freqMap, n);
-        String metadata = Metadata.generateCompressionMetaData(freqMap, representationMap);
+        Object[] tempResults = Metadata.computeMetadata(representationMap, freqMap, n);
+        LinkedList<Byte> metadataBytes = (LinkedList<Byte>) tempResults[0];
+        int paddingBits = (byte) tempResults[1];
+//        String metadata = Metadata.generateCompressionMetaData(freqMap, representationMap);
         Logger.logMsgFrom(this.getClass().getName(), "Computed the metadata successfully", 0);
 
         // write metadata to the compressed file
-        String metadataFilePath = Utilities.generateMetadataFilePath(filePathToCompress, n);
-        Metadata.writeMetadata(metadataFilePath, metadata);
-        Logger.logMsgFrom(this.getClass().getName(), "Metadata file has been written successfully.", 0);
+//        String metadataFilePath = Utilities.generateMetadataFilePath(filePathToCompress, n);
+//        Metadata.writeMetadata(metadataFilePath, metadata);
+//        Logger.logMsgFrom(this.getClass().getName(), "Metadata file has been written successfully.", 0);
 
         // iteratively, read the bytes again from the file and generate their
         // equivalent bytes, and write them.
-        readBytesAndExportCompression(filePathToCompress, n, representationMap, Integer.parseInt("" + metadata.charAt(metadata.length() - 2)));
+        readBytesAndExportCompression(filePathToCompress, n, representationMap, paddingBits, metadataBytes);
         Logger.logMsgFrom(this.getClass().getName(), "Compressed file has been generated successfully", 0);
 
         // log end of compression statement.
@@ -112,7 +114,8 @@ public class Compressor {
      * @param representationMap The map containing byte representations after Huffman encoding
      * @param paddingBits The number of padding bits required for the last byte
      */
-    public void readBytesAndExportCompression(String filePathToCompress, int n, HashMap<String, String> representationMap, int paddingBits) {
+    public void readBytesAndExportCompression(String filePathToCompress, int n, HashMap<String, String> representationMap,
+                                              int paddingBits, LinkedList<Byte> metadataBytes) {
 
         // initialize data structures and objects
         ProFileReader proFileReader = new ProFileReader(filePathToCompress);
@@ -123,14 +126,14 @@ public class Compressor {
 
         // write metadata
 //        LinkedList<Byte> metadataBytes = new LinkedList<>();
-//        bytesToWrite = new byte[metadataBytes.size()];
-//
-//        for (int i = 0 ; i < bytesToWrite.length ; i++) {
-//            bytesToWrite[i] = metadataBytes.poll();
-//        }
-//
-//        proFileWriter.writeNextFilePart(bytesToWrite);
-//        bytesToWrite = null;
+        bytesToWrite = new byte[metadataBytes.size()];
+
+        for (int i = 0 ; i < bytesToWrite.length ; i++) {
+            bytesToWrite[i] = metadataBytes.poll();
+        }
+
+        proFileWriter.writeNextFilePart(bytesToWrite);
+        bytesToWrite = null;
         // finished writing metadata.
 
         StringBuilder binaryStringBuilder = new StringBuilder("0".repeat(paddingBits));

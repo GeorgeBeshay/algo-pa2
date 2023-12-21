@@ -43,7 +43,7 @@ public class MetadataTests {
         long expectedMetadataSizeInBytes = 52;      // 17 + 8 + 8 + 8 + 11
 
         // Act
-        LinkedList<Byte> metadataBytes = Metadata.computeMetadata(representationMap, freqMap, expectedN);
+        LinkedList<Byte> metadataBytes = (LinkedList<Byte>) (Metadata.computeMetadata(representationMap, freqMap, expectedN))[0];
 
         // Assert
         assertEquals(expectedMetadataSizeInBytes, metadataBytes.size());
