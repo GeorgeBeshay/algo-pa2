@@ -50,8 +50,36 @@ tasks.register('buildPart1', Jar) {
     }
 }
 
+tasks.register('buildPart2', Jar) {
+
+    archiveFileName = 'huffman_20010435.jar' // Change the name of the JAR file if needed
+
+    from sourceSets.main.output.asFileTree.matching {
+        include 'algs/part02/**' // Include the 'algs' package and its contents
+    }
+
+    from sourceSets.main.java.asFileTree.matching {
+        include 'algs/part02/**'
+    }
+
+    from sourceSets.test.output.asFileTree.matching {
+        include 'algs/part02/**' // Include the 'algs' package and its contents
+    }
+
+    from sourceSets.test.java.asFileTree.matching {
+        include 'algs/part02/**'
+    }
+
+    manifest {
+        attributes 'Main-Class': 'algs.part02.Main' // Replace with your main class
+    }
+}
+
 tasks.buildPart1.dependsOn(tasks.build)
 tasks.build.finalizedBy(tasks.buildPart1)
+
+tasks.buildPart2.dependsOn(tasks.build)
+tasks.build.finalizedBy(tasks.buildPart2)
 
 tasks.generateJavaDocs.dependsOn(tasks.build)
 tasks.build.finalizedBy(tasks.generateJavaDocs)

@@ -23,17 +23,6 @@ public class BytesManipulator {
         return freqMap;
     }
 
-//    public static String convertBytesToHexString(byte[] bytes, int startIdx, int endIdx) {
-//
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for(int i = startIdx ; i < endIdx ; i++) {
-//            stringBuilder.append(String.format("%02X", bytes[i]));
-//        }
-//
-//        return stringBuilder.toString();
-//
-//    }
-
     public static String convertBytesToHexString(byte[] bytes, int startIdx, int endIdx) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = startIdx; i < endIdx; i++) {
@@ -49,7 +38,6 @@ public class BytesManipulator {
         hexChars[1] = Character.toUpperCase(Character.forDigit((b & 0xF), 16));
         return new String(hexChars);
     }
-
 
     public static byte[] convertBinStringToBytesArray(String binaryString) {
         if (binaryString.isEmpty())
@@ -84,9 +72,6 @@ public class BytesManipulator {
         return equivalentBytes;
     }
 
-//    public static String convertByteToBinaryString(byte b) {
-//        return String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
-//    }
     public static String convertByteToBinaryString(byte b) {
         StringBuilder binaryString = new StringBuilder(8);
         for (int i = 7; i >= 0; i--) {
@@ -94,8 +79,6 @@ public class BytesManipulator {
         }
         return binaryString.toString();
     }
-
-
 
     public static int convertBytesToInt(byte[] bytes) {
         if (bytes.length != 4)

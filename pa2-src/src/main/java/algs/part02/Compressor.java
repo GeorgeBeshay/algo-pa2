@@ -11,11 +11,11 @@ import static algs.part02.BytesManipulator.updateFrequencyMap;
  */
 public class Compressor {
 
-    public static void main(String[] args) {
-        Compressor compressor = new Compressor();
-        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\Algorithms - Lectures 7 and 8 (Greedy algorithms).pdf";
-        compressor.compressFile(filePath, 1);
-    }
+//    public static void main(String[] args) {
+//        Compressor compressor = new Compressor();
+//        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\Algorithms - Lectures 7 and 8 (Greedy algorithms).pdf";
+//        compressor.compressFile(filePath, 1);
+//    }
 
     /**
      * <b>Compresses the specified file using Huffman encoding.</b>
@@ -37,8 +37,7 @@ public class Compressor {
         Logger.logMsgFrom(this.getClass().getName(), "File compression process has been started ..", -1);
 
         // configurations
-//        Huffman.setNumberOfChildren(2);
-        ProFileWriter.setBufferSize(n);
+        ProFileWriter.setBufferSizeCompatibleWith(n);
         ProFileReader.setBufferSizeMatchN(n);
 
         // iteratively, read bytes and update frequency map
@@ -53,13 +52,7 @@ public class Compressor {
         Object[] tempResults = Metadata.computeMetadata(representationMap, freqMap, n);
         LinkedList<Byte> metadataBytes = (LinkedList<Byte>) tempResults[0];
         int paddingBits = (byte) tempResults[1];
-//        String metadata = Metadata.generateCompressionMetaData(freqMap, representationMap);
         Logger.logMsgFrom(this.getClass().getName(), "Computed the metadata successfully", 0);
-
-        // write metadata to the compressed file
-//        String metadataFilePath = Utilities.generateMetadataFilePath(filePathToCompress, n);
-//        Metadata.writeMetadata(metadataFilePath, metadata);
-//        Logger.logMsgFrom(this.getClass().getName(), "Metadata file has been written successfully.", 0);
 
         // iteratively, read the bytes again from the file and generate their
         // equivalent bytes, and write them.
@@ -124,35 +117,22 @@ public class Compressor {
         ProFileWriter proFileWriter = new ProFileWriter(Utilities.generateCompressionFilePath(filePathToCompress, n));
         byte[] bytesToWrite;
 
-        // write metadata
-//        LinkedList<Byte> metadataBytes = new LinkedList<>();
+        // ------------- write metadata -------------
         bytesToWrite = new byte[metadataBytes.size()];
 
         for (int i = 0 ; i < bytesToWrite.length ; i++) {
             bytesToWrite[i] = metadataBytes.poll();
         }
-
         proFileWriter.writeNextFilePart(bytesToWrite);
         bytesToWrite = null;
-        // finished writing metadata.
+        Logger.logMsgFrom(this.getClass().getName(), "Metadata has been written successfully.", 0);
+        // ------------- finished writing metadata. -------------
 
         StringBuilder binaryStringBuilder = new StringBuilder("0".repeat(paddingBits));
-//        String tempNBytes;  // in hexadecimal
 
         readBytes = proFileReader.readNextFilePart();
 
         while (readBytes.length != 0) {
-
-//            for (int i = 0 ; i < readBytes.length ; i+=n) {
-//
-//                tempNBytes = BytesManipulator.bytesToHexadecimalString(readBytes, i, Math.min(i + n, readBytes.length));
-//                if (!representationMap.containsKey(tempNBytes)) {
-//                    Logger.logMsgFrom(this.getClass().getName(), "Error when compressing the file .. an N bytes word had no mapping ..", 1);
-//                    throw new RuntimeException("Error when compressing the file .. an N bytes word had no mapping ..");
-//                }
-//
-//                binaryStringBuilder.append(representationMap.get(tempNBytes));
-//            }
             handleFilePartCompression(n, readBytes, representationMap, binaryStringBuilder);
 
             String binaryString = binaryStringBuilder.toString();

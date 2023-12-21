@@ -29,7 +29,7 @@ public class ProFileWriter {
     private final byte[] buffer;
     private long totalBytesWritten;
 
-    public static void setBufferSize(int n) {
+    public static void setBufferSizeCompatibleWith(int n) {
         BUFFER_SIZE = (int) Math.ceil((double) 52_428_800 / n);
     }
 

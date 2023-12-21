@@ -1,7 +1,6 @@
 package algs.part02;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The Decompressor class is the entity responsible for implementing the overall decompressing algorithm. It uses a set
@@ -9,22 +8,14 @@ import java.util.Map;
  */
 public class Decompressor {
 
-    public static void main(String[] args) {
-        Decompressor decompressor = new Decompressor();
-        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\20010435_1.Algorithms - Lectures 7 and 8 (Greedy algorithms).pdf.hc";
-        String metadataFilePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\Algorithms - Lectures 7 and 8 (Greedy algorithms)_metadata_1.txt";
-        decompressor.decompress(filePath, metadataFilePath);
-    }
-
     /*
      * Algorithm Pseudocode
      * --------------------
      *
      * 1. Input file name to decompress
-     * 2. Input metadata file to read
-     * 3. Generate representation map from the metadata file
-     * 4. scan file bytes and map them to the real bytes.
-     * 5. write the new bytes generated
+     * 2. Generate representation map from the metadata file
+     * 3. scan file bytes and map them to the real bytes.
+     * 4. write the new bytes generated
      */
 
     /**
@@ -35,20 +26,12 @@ public class Decompressor {
      * with its actual represented bytes.
      * <hr>
      * @param compressedFilePath The file path of the compressed file.
-     * @param metadataFilePath The file path of the metadata file.
      */
-    public void decompress(String compressedFilePath, String metadataFilePath) {
+    public void decompress(String compressedFilePath) {
         Logger.logMsgFrom(this.getClass().getName(), "File decompression process has been started ..", -1);
-
-        // configurations
-//        ProFileWriter.setBufferSize(n);
-//        ProFileReader.setBufferSize(n);
 
         // extract representation map from the metadata file.
         HashMap<String, String> representationMap = new HashMap<>();
-//        int paddingBits = Metadata.readAndExtractMetadata(metadataFilePath, representationMap);
-//        Logger.logMsgFrom(this.getClass().getName(), "Metadata has been scanned successfully, " +
-//                "and the representation map has been computed.", 0);
 
         // decompress the file
         readBytesAndExportDecompression(compressedFilePath, representationMap);
@@ -66,6 +49,18 @@ public class Decompressor {
         // initialize data structures and objects
         ProFileReader proFileReader = new ProFileReader(compressedFilePath);
         byte[] readBytes;
+
+        try {
+            proFileReader.getNextXBytes(12);
+            int n = BytesManipulator.convertBytesToInt(proFileReader.getNextXBytes(4));
+            proFileReader = null;
+            ProFileReader.setBufferSizeMatchN(n);
+            ProFileWriter.setBufferSizeCompatibleWith(n);
+            proFileReader = new ProFileReader(compressedFilePath);
+        } catch (Exception ignored) {
+            proFileReader = new ProFileReader(compressedFilePath);
+        }
+
         ProFileWriter proFileWriter = new ProFileWriter(Utilities.generateOriginalFilePath(compressedFilePath));
         byte[] bytesToWrite;
 

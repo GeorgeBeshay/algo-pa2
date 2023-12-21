@@ -9,10 +9,6 @@ public class Huffman {
 
     private final static int numberOfChildren = 2;
 
-//    public static void setNumberOfChildren(int numberOfChildren) {
-//        Huffman.numberOfChildren = numberOfChildren;
-//    }
-
     public static HashMap<String, String> huffman(HashMap<String, Long> freqMap) {
 
         /*

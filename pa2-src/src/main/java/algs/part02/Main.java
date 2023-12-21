@@ -1,5 +1,7 @@
 package algs.part02;
 
+import java.util.Objects;
+
 /**
  * This class demonstrates LARGE file input/output operations by reading from a file using ProFileReader
  * and writing to another file using ProFileWriter.
@@ -12,21 +14,22 @@ public class Main {
      * @param args Command-line arguments: args[0] should contain the path of the input file.
      */
     public static void main(String[] args) {
+        if (args.length == 3 && Objects.equals(args[0], "c")) {
 
-        ProFileReader proFileReader = new ProFileReader(args[0]);
-        ProFileWriter proFileWriter = new ProFileWriter(args[0].replace(".", "_copy."));
-        byte[] readBytes;
+            Logger.logMsgFrom(Main.class.getName(), "Compression process is requested!", -1);
+            Compressor compressor = new Compressor();
+            compressor.compressFile(args[1], Integer.parseInt(args[2]));
 
-        readBytes = proFileReader.readNextFilePart();
+        } else if (args.length == 2 && Objects.equals(args[0], "d")) {
 
-        while(readBytes.length != 0) {
-            proFileWriter.writeNextFilePart(readBytes);
-            readBytes = proFileReader.readNextFilePart();
+            Logger.logMsgFrom(Main.class.getName(), "Decompression process is requested!", -1);
+            Decompressor decompressor = new Decompressor();
+            decompressor.decompress(args[1]);
+
+        } else {
+            Logger.logMsgFrom(Main.class.getName(), "Invalid # of parameters.", 1);
+
         }
-
-        Logger.logMsgFrom(Main.class.getName(), "Total Read Bytes = " + proFileReader.getTotalBytesRead(), 0);
-        Logger.logMsgFrom(Main.class.getName(), "Total Written Bytes = " + proFileWriter.getTotalBytesWritten(), 0);
-
     }
 
 }
