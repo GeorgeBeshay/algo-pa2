@@ -38,7 +38,7 @@ public class Metadata {
             fileWriter.write(metadata);
             fileWriter.close();
         } catch (IOException e) {
-            Logger.logMsgFrom(Main.class.getName(), "Error occurred while writing file metadata\n" + e, 1);;
+            Logger.logMsgFrom(Main.class.getName(), "Error occurred while writing file metadata\n" + e, 1);
         }
     }
 
@@ -60,6 +60,20 @@ public class Metadata {
             Logger.logMsgFrom(Metadata.class.getName(), "Error while reading metadata file: " + e, 1);
             throw new RuntimeException(e);
         }
+    }
+
+    // method gets the next representation map entry (String of bits, String of bytes)
+    public String[] getNextEntry(ProFileReader proFileReader, int n) {
+        String[] ans = new String[2];
+
+        int hcSizeInBytes = BytesManipulator.convertBytesToInt(proFileReader.getNextXBytes(4));
+        byte hcPaddingInBits = proFileReader.getNextByte();
+
+        // use an array of bytes, an offset, to get the string of bits.
+        ans[0] = BytesManipulator.convertBytesToBinaryString(proFileReader.getNextXBytes(hcSizeInBytes), hcPaddingInBits);
+        ans[1] = BytesManipulator.convertBytesToHexString(proFileReader.getNextXBytes(n), 0, n);
+
+        return ans;
     }
 
 }

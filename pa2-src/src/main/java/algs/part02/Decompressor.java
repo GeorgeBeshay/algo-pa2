@@ -11,8 +11,8 @@ public class Decompressor {
 
     public static void main(String[] args) {
         Decompressor decompressor = new Decompressor();
-        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\20010435_1.gbbct10.seq.hc";
-        String metadataFilePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\gbbct10_metadata_1.txt";
+        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\20010435_1.Algorithms - Lectures 7 and 8 (Greedy algorithms).pdf.hc";
+        String metadataFilePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\Algorithms - Lectures 7 and 8 (Greedy algorithms)_metadata_1.txt";
         decompressor.decompress(filePath, metadataFilePath);
     }
 

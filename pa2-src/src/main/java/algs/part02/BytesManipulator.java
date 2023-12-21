@@ -11,7 +11,7 @@ public class BytesManipulator {
 
         for(int i = 0 ; i < filePart.length ; i+=n) {
 
-            String nBytesStringRepresentation = bytesToHexadecimalString(filePart, i, Math.min(i + n, filePart.length));
+            String nBytesStringRepresentation = convertBytesToHexString(filePart, i, Math.min(i + n, filePart.length));
             if(freqMap.containsKey(nBytesStringRepresentation)) {
                 freqMap.replace(nBytesStringRepresentation, freqMap.get(nBytesStringRepresentation) + 1);
             } else {
@@ -23,7 +23,7 @@ public class BytesManipulator {
         return freqMap;
     }
 
-    public static String bytesToHexadecimalString(byte[] bytes, int startIdx, int endIdx) {
+    public static String convertBytesToHexString(byte[] bytes, int startIdx, int endIdx) {
 
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = startIdx ; i < endIdx ; i++) {
@@ -70,4 +70,45 @@ public class BytesManipulator {
     public static String convertByteToBinaryString(byte b) {
         return String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
     }
+
+    public static int convertBytesToInt(byte[] bytes) {
+        if (bytes.length != 4)
+            throw new RuntimeException("Bytes array must be of size 4 to be converted to an int ..");
+
+        int value = 0;
+        for(byte b : bytes) {
+            value = (value << 8) | (b & 0xFF);
+        }
+
+        return value;
+    }
+
+    public static long convertBytesToLong(byte[] bytes) {
+        if (bytes.length != 8)
+            throw new RuntimeException("Bytes array must be of size 8 to be converted to a long ..");
+
+        long value = 0;
+        for(byte b : bytes) {
+            value = (value << 8) | (b & 0xFF);
+        }
+
+        return value;
+    }
+
+    public static String convertBytesToBinaryString(byte[] bytes, byte paddingBits) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (byte b : bytes) {
+            for (int i = 7 ; i >= 0 ; i--) {
+                if(paddingBits == 0) {
+                    stringBuilder.append((b >> i) & 1);
+                } else {
+                    paddingBits--;
+                }
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
 }

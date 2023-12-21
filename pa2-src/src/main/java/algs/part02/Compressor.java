@@ -12,7 +12,7 @@ public class Compressor {
 
     public static void main(String[] args) {
         Compressor compressor = new Compressor();
-        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\gbbct10.seq";
+        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\Algorithms - Lectures 7 and 8 (Greedy algorithms).pdf";
         compressor.compressFile(filePath, 1);
     }
 
@@ -38,7 +38,7 @@ public class Compressor {
         // configurations
         Huffman.setNumberOfChildren(2);
         ProFileWriter.setBufferSize(n);
-        ProFileReader.setBufferSize(n);
+        ProFileReader.setBufferSizeMatchN(n);
 
         // iteratively, read bytes and update frequency map
         HashMap<String, Long> freqMap = readBytesAndUpdateFreqMap(filePathToCompress, n);
@@ -170,7 +170,7 @@ public class Compressor {
 
         for (int i = 0 ; i < readBytes.length ; i+=n) {
 
-            tempNBytes = BytesManipulator.bytesToHexadecimalString(readBytes, i, Math.min(i + n, readBytes.length));
+            tempNBytes = BytesManipulator.convertBytesToHexString(readBytes, i, Math.min(i + n, readBytes.length));
             if (!representationMap.containsKey(tempNBytes)) {
                 Logger.logMsgFrom(this.getClass().getName(), "Error when compressing the file .. an N bytes word had no mapping ..", 1);
                 throw new RuntimeException("Error when compressing the file .. an N bytes word had no mapping ..");

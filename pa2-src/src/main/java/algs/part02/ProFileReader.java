@@ -14,10 +14,18 @@ public class ProFileReader {
     private final String filePath;
     private final byte[] buffer;
     private long totalBytesRead;
+    private int bufferPointer;
+    private boolean bufferEmpty;
 
-    public static void setBufferSize(int n) {
+    public static void setBufferSizeMatchN(int n) {
         BUFFER_SIZE = (int) Math.ceil((double) 52_428_800 / n);
     }
+
+    public static int getBufferSize() {return BUFFER_SIZE;}
+
+    public static void setBufferSize(int n) {BUFFER_SIZE = n;}
+
+
 
     /**
      * Constructs a ProFileReader object to read the specified file.
@@ -29,6 +37,7 @@ public class ProFileReader {
         this.buffer = new byte[BUFFER_SIZE];
         this.totalBytesRead = 0;
         this.prepareInputStream();
+        this.bufferEmpty = true;
     }
 
     /**
@@ -45,7 +54,6 @@ public class ProFileReader {
                 bytesFoundCount = 0;
                 Logger.logMsgFrom(this.getClass().getName(), "All file has been read successfully.", 0);
             }
-
             byte[] bytesFound = new byte[bytesFoundCount];
             System.arraycopy(buffer, 0, bytesFound, 0, bytesFoundCount);
             totalBytesRead += bytesFoundCount;
@@ -78,5 +86,65 @@ public class ProFileReader {
      */
     public long getTotalBytesRead() {
         return totalBytesRead;
+    }
+
+    public byte getNextByte() {
+        if (this.bufferEmpty) {
+            bufferEmpty = false;
+            readNextFilePart();
+        }
+
+        if(bufferPointer == -1)
+            throw new RuntimeException("No more bytes.");
+
+        byte tempByte = buffer[bufferPointer];
+        updateBufferPointer(1);
+
+        return tempByte;
+    }
+
+    public byte[] getNextXBytes(int x) {
+
+        if (this.bufferEmpty) {
+            bufferEmpty = false;
+            readNextFilePart();
+        }
+
+        byte[] xBytes = new byte[x];
+
+        if(x <= buffer.length - bufferPointer) {
+            System.arraycopy(buffer, bufferPointer, xBytes, 0, x);
+            updateBufferPointer(x);
+        } else {
+            int remainingBytes = x;
+
+            while (remainingBytes > buffer.length - bufferPointer) {
+                System.arraycopy(buffer, bufferPointer, xBytes, x - remainingBytes, buffer.length - bufferPointer);
+                remainingBytes -= buffer.length - bufferPointer;
+
+                byte[] tempByteArray = readNextFilePart();
+                if (tempByteArray.length == 0)
+                    throw new RuntimeException("No more bytes.");
+                bufferPointer = 0;
+            }
+
+            if (remainingBytes > 0) {
+                System.arraycopy(buffer, bufferPointer, xBytes, x - remainingBytes, remainingBytes);
+                updateBufferPointer(remainingBytes);
+            }
+        }
+
+        return xBytes;
+    }
+
+    private void updateBufferPointer(int displacement) {
+        bufferPointer += displacement;
+        if(this.bufferPointer >= buffer.length) {
+            byte[] tempByteArray = readNextFilePart();
+            if(tempByteArray.length > 0)
+                bufferPointer = 0;
+            else
+                bufferPointer = -1;
+        }
     }
 }

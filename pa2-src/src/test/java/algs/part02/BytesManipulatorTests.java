@@ -1,11 +1,11 @@
 package algs.part02;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BytesManipulatorTests {
 
@@ -15,7 +15,7 @@ public class BytesManipulatorTests {
         // Arrange - none
 
         // Act
-        String actualBytesToHexaString = BytesManipulator.bytesToHexadecimalString(bytes, 0, bytes.length);
+        String actualBytesToHexaString = BytesManipulator.convertBytesToHexString(bytes, 0, bytes.length);
 
         // Assert
         assertEquals(expectedBytesToHexaString, actualBytesToHexaString);
@@ -43,6 +43,101 @@ public class BytesManipulatorTests {
 
         // Assert
         assertEquals(expectedBinaryString, actualBinaryString);
+    }
+
+    @Test
+    public void testConvertBytesToInt_Success01() {
+        byte[] intBytes = {0x00, 0x00, 0x00, 0x0A}; // Example byte array for int (0x0000000A)
+        int expectedIntValue = 10;
+
+        int actualIntValue = BytesManipulator.convertBytesToInt(intBytes);
+        assertEquals(expectedIntValue, actualIntValue);
+    }
+    @Test
+    public void testConvertBytesToInt_Success02() {
+        byte[] intBytes = {(byte) 0x97, (byte) 0xFF, (byte) 0xFF, 0x0A};
+        int expectedIntValue = -1744830710;
+
+        int actualIntValue = BytesManipulator.convertBytesToInt(intBytes);
+        assertEquals(expectedIntValue, actualIntValue);
+    }
+
+    @Test
+    public void testConvertBytesToInt_Success03() {
+        byte[] intBytes = {(byte) 0x13, (byte) 0x5F, (byte) 0xE3, (byte) 0xFF};
+        int expectedIntValue = 325051391;
+
+        int actualIntValue = BytesManipulator.convertBytesToInt(intBytes);
+        assertEquals(expectedIntValue, actualIntValue);
+    }
+
+    @Test
+    public void testConvertBytesToInt_InvalidSize() {
+        byte[] invalidIntBytes = {0x00, 0x00, 0x0A}; // Invalid size byte array for int
+        assertThrows(RuntimeException.class, () -> BytesManipulator.convertBytesToInt(invalidIntBytes));
+    }
+
+    @Test
+    public void testConvertBytesToLong_Success01() {
+        byte[] longBytes = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0A}; // Example byte array for long (0x000000000000000A)
+        long expectedLongValue = 10L;
+
+        long actualLongValue = BytesManipulator.convertBytesToLong(longBytes);
+        assertEquals(expectedLongValue, actualLongValue);
+    }
+
+    @Test
+    public void testConvertBytesToLong_Success02() {
+        byte[] longBytes = {(byte) 0xE0, (byte) 0x19, (byte) 0x73, (byte) 0xCC, (byte) 0xD2, (byte) 0x1B, (byte) 0x00, (byte) 0x99}; // Example byte array for long (0x000000000000000A)
+        long expectedLongValue = -2298678811260419943L;
+
+        long actualLongValue = BytesManipulator.convertBytesToLong(longBytes);
+        assertEquals(expectedLongValue, actualLongValue);
+    }
+
+    @Test
+    public void testConvertBytesToLong_Success03() {
+        byte[] longBytes = {(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF}; // Example byte array for long (0x000000000000000A)
+        long expectedLongValue = -1;
+
+        long actualLongValue = BytesManipulator.convertBytesToLong(longBytes);
+        assertEquals(expectedLongValue, actualLongValue);
+    }
+
+    @Test
+    public void testConvertBytesToLong_InvalidSize() {
+        byte[] invalidLongBytes = {0x00, 0x00, 0x00, 0x0A}; // Invalid size byte array for long
+        assertThrows(RuntimeException.class, () -> BytesManipulator.convertBytesToLong(invalidLongBytes));
+    }
+
+    @Test
+    public void testConvertBytesToBinaryString_NoPadding() {
+        byte[] bytes = {(byte) 0x97, (byte) 0xFF}; // Example byte array (0x97, 0xFF)
+        byte paddingBits = 0;
+        String expectedBits = "1001011111111111"; // Expected bits without padding
+
+        String resultBits = BytesManipulator.convertBytesToBinaryString(bytes, paddingBits);
+        assertEquals(expectedBits, resultBits);
+    }
+
+    @Test
+    public void testConvertBytesToBinaryString_WithPadding() {
+        byte[] bytes = {(byte) 0x97, (byte) 0xFF}; // Example byte array (0x97, 0xFF)
+        byte paddingBits = 4; // Adding 4 bits of padding
+        String expectedBits = "011111111111"; // Expected bits with padding
+
+        String resultBits = BytesManipulator.convertBytesToBinaryString(bytes, paddingBits);
+        assertEquals(expectedBits, resultBits);
+    }
+
+    @Test
+    public void testConvertBytesToBinaryString_FullPadding() {
+        byte[] bytes = {(byte) 0x97, (byte) 0xFF}; // Example byte array (0x97, 0xFF)
+        byte paddingBits = 16; // Adding 16 bits of padding, more than available bits
+        String expectedBits = ""; // Expected an empty string due to full padding
+
+        String resultBits = BytesManipulator.convertBytesToBinaryString(bytes, paddingBits);
+        assertEquals(expectedBits, resultBits);
     }
 
 

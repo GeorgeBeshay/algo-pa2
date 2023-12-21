@@ -5,9 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.stream.Stream;
 
@@ -24,7 +22,7 @@ public class CompressionDecompressionTests {
         String decompressedFilePath = Utilities.generateOriginalFilePath(compressedFilePath);
 
 
-        ProFileReader.setBufferSize(n);
+        ProFileReader.setBufferSizeMatchN(n);
         ProFileWriter.setBufferSize(n);
         Compressor compressor = new Compressor();
         Decompressor decompressor = new Decompressor();
