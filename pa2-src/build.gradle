@@ -16,6 +16,7 @@ dependencies {
 }
 
 test {
+    maxHeapSize('2g')
     useJUnitPlatform()
 }
 
@@ -54,3 +55,8 @@ tasks.build.finalizedBy(tasks.buildPart1)
 
 tasks.generateJavaDocs.dependsOn(tasks.build)
 tasks.build.finalizedBy(tasks.generateJavaDocs)
+
+tasks.withType(JavaExec).configureEach {
+    maxHeapSize = "2g"      // java heap space.
+}
+
