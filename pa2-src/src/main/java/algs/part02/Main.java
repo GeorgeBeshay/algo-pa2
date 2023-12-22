@@ -3,15 +3,20 @@ package algs.part02;
 import java.util.Objects;
 
 /**
- * This class demonstrates LARGE file input/output operations by reading from a file using ProFileReader
- * and writing to another file using ProFileWriter.
+ * This class is the entry point for the second part of the assignment, giving the user the option
+ * to compress / decompress a file of any type.
+ * It accepts input through the command-line arguments.
+ * For compression: java -jar 20010435_huffman.jar c absFilePath n
+ * For decompression: java -jar 20010435_huffman.jar d absFilePath
  */
 public class Main {
 
     /**
-     * The main method demonstrating file input/output operations.
+     * The main method demonstrating file compression / decompression procedures.
      *
-     * @param args Command-line arguments: args[0] should contain the path of the input file.
+     * @param args Command-line arguments: args[0] should contain the type of operation,
+     *             args[1] should contain the absolute file path, and args[2] (in case of compression)
+     *             should contain the n value.
      */
     public static void main(String[] args) {
         if (args.length == 3 && Objects.equals(args[0], "c")) {

@@ -26,13 +26,13 @@ public class BytesManipulator {
     public static String convertBytesToHexString(byte[] bytes, int startIdx, int endIdx) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = startIdx; i < endIdx; i++) {
-            stringBuilder.append(byteToHex(bytes[i]));
+            stringBuilder.append(convertByteToHex(bytes[i]));
         }
         return stringBuilder.toString();
     }
 
     // Helper method to convert byte to its uppercase hexadecimal representation
-    public static String byteToHex(byte b) {
+    public static String convertByteToHex(byte b) {
         char[] hexChars = new char[2];
         hexChars[0] = Character.toUpperCase(Character.forDigit((b >> 4) & 0xF, 16));
         hexChars[1] = Character.toUpperCase(Character.forDigit((b & 0xF), 16));
