@@ -3,19 +3,11 @@ package algs.part02;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static algs.part02.BytesManipulator.updateFrequencyMap;
-
 /**
  * The Compressor class is the entity responsible for implementing the overall compressing algorithm. It uses a set
  * of utilities methods in addition to the Huffman encoding algorithm.
  */
 public class Compressor {
-
-//    public static void main(String[] args) {
-//        Compressor compressor = new Compressor();
-//        String filePath = "D:\\College\\Level 3\\Fall 2023 - 2024\\CSE 321 - Analysis and Design of Algorithms\\Programming Assignments\\Assignment 02\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\Algorithms - Lectures 7 and 8 (Greedy algorithms).pdf";
-//        compressor.compressFile(filePath, 1);
-//    }
 
     /**
      * <b>Compresses the specified file using Huffman encoding.</b>
@@ -86,7 +78,7 @@ public class Compressor {
         // keep updating the frequency map
         while (readBytes.length != 0) {
             // update freq map
-            freqMap = updateFrequencyMap(readBytes, n, freqMap);
+            freqMap = BytesManipulator.updateFrequencyMap(readBytes, n, freqMap);
             readBytes = proFileReader.readNextFilePart();
         }
 

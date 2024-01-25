@@ -13,7 +13,7 @@ public class Decompressor {
      * --------------------
      *
      * 1. Input file name to decompress
-     * 2. Generate representation map from the metadata file
+     * 2. Generate representation map from the metadata part of the compressed file.
      * 3. scan file bytes and map them to the real bytes.
      * 4. write the new bytes generated
      */
@@ -67,6 +67,7 @@ public class Decompressor {
         // read metadata
         Object[] tempResults = Metadata.readAndExtractMetadataPro(representationMap, proFileReader);
         int paddingBits = (byte) tempResults[2];
+        Logger.logMsgFrom(this.getClass().getName(), "Metadata has been extracted successfully.", 0);
         // ----------
 
 

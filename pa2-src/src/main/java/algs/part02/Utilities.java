@@ -24,10 +24,6 @@ public class Utilities {
         return directoryPath + "\\extracted." + fileNameWithoutExt;
     }
 
-    public static String generateMetadataFilePath(String filePathToCompress, int n) {
-        return filePathToCompress.replaceFirst("[.][^.]+$", "_metadata_" + n + ".txt");
-    }
-
     public static byte computePaddingBits(int binaryStringLength) {
         return (byte) ((8 - (binaryStringLength % 8)) % 8);
     }
