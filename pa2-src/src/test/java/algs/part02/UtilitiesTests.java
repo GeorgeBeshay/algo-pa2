@@ -25,12 +25,12 @@ public class UtilitiesTests {
     private static Stream<Arguments> generateCompressedPathsAndOriginalPaths() {
         return Stream.of(
                 Arguments.of(
-                        "D:\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\123123_122.simpletext.exe.hc",
-                        "D:\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\extracted.simpletext.exe"
+                        "D:\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\20010435.2.simpleFile.exe.hc",
+                        "D:\\algo-pa2\\pa2-src\\src\\main\\java\\algs\\part02\\tests\\extracted.20010435.2.simpleFile.exe"
                 ),
                 Arguments.of(
-                        "path\\to\\your\\123454_23.filename.txt.hc",
-                        "path\\to\\your\\extracted.filename.txt"
+                        "path\\to\\your\\20010435.1.filename.txt.hc",
+                        "path\\to\\your\\extracted.20010435.1.filename.txt"
                 )
         );
     }

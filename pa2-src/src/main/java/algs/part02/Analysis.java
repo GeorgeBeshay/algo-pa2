@@ -33,7 +33,7 @@ public class Analysis {
         }
 
     }
-    private static double getFileSizeInMegaBytes(String filePath) {
+    public static double getFileSizeInMegaBytes(String filePath) {
         File file = new File(filePath);
         if (file.exists() && file.isFile()) {
             long fileSizeInBytes = file.length();
@@ -43,7 +43,7 @@ public class Analysis {
         }
     }
 
-    private static String formatDuration(Duration duration) {
+    public static String formatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.toMinutes() % 60;
         long seconds = duration.getSeconds() % 60;
